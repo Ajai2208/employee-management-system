@@ -32,6 +32,10 @@ pipeline {
             steps {
                 bat '''
                     copy /Y "target\\employee-management-system-0.0.1-SNAPSHOT.jar" "C:\\ProgramData\\Jenkins\\deploy\\employee-management-system.jar"
+
+                    for /f "tokens=5" %%a in ('netstat -ano ^| findstr :8080 ^| findstr LISTENING') do taskkill /PID %%a /F
+
+                    start "Employee Management System" /B java -jar "C:\\ProgramData\\Jenkins\\deploy\\employee-management-system.jar"
                 '''
             }
         }
