@@ -27,15 +27,23 @@ pipeline {
                 bat 'mvn package -DskipTests'
             }
         }
+
+        stage('Deploy') {
+            steps {
+                bat '''
+                    copy /Y "target\\employee-management-system-0.0.1-SNAPSHOT.jar" "C:\\ProgramData\\Jenkins\\deploy\\employee-management-system.jar"
+                '''
+            }
+        }
     }
 
     post {
         success {
-            echo 'Build completed successfully!'
+            echo 'Build and deployment completed successfully!'
         }
 
         failure {
-            echo 'Build failed!'
+            echo 'Build or deployment failed!'
         }
     }
 }
