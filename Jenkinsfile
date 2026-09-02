@@ -29,14 +29,14 @@ pipeline {
         }
 
         stage('Deploy') {
-            steps {
-                bat '''
-                    copy /Y "target\\employee-management-system-0.0.1-SNAPSHOT.jar" "C:\\ProgramData\\Jenkins\\deploy\\employee-management-system.jar"
+        steps {
+            bat '''
+                copy /Y "target\\employee-management-system-0.0.1-SNAPSHOT.jar" "C:\\ProgramData\\Jenkins\\deploy\\employee-management-system.jar"
 
-                    for /f "tokens=5" %%a in ('netstat -ano ^| findstr :8080 ^| findstr LISTENING') do taskkill /PID %%a /F
+                for /f "tokens=5" %%a in ('netstat -ano ^| findstr :8080 ^| findstr LISTENING') do taskkill /PID %%a /F
 
-                    start "Employee Management System" /B java -jar "C:\\ProgramData\\Jenkins\\deploy\\employee-management-system.jar"
-                '''
+                start "Employee Management System" /B cmd /c "java -jar C:\\ProgramData\\Jenkins\\deploy\\employee-management-system.jar > C:\\ProgramData\\Jenkins\\deploy\\application.log 2>&1"
+        '''
             }
         }
     }
